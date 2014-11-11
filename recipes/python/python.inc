@@ -52,7 +52,7 @@ do_install_extra_files () {
 
 
 PACKAGES += "${PN}-lib"
-FILES_${PN}-lib = "/lib/python2.7/*"
+FILES_${PN}-lib = "${base_libdir}/python2.7/*"
 
 PACKAGES += "${PN}-lib-target"
-FILES_${PN}-lib-target = "/usr/lib/python2.7/*"
+FILES_${PN}-lib-target = "${libdir}/python2.7/*"
