@@ -7,7 +7,7 @@ RECIPE_TYPES = "native machine"
 
 inherit autotools  make
 
-CROSS_DEPENDS = "native:python libssl libz libreadline libffi zlib libcrypto libtermcap libm"
+CROSS_DEPENDS = "native:python  native:python-lib libssl libz libreadline libffi zlib libcrypto libtermcap libm"
 CROSS_DEPENDS:native = ""
 DEPENDS += "${CROSS_DEPENDS}"
 
@@ -23,15 +23,6 @@ SRC_URI:>machine = " file://Python-2.7.5-xcompile.patch;striplevel=3"
 # Python is in caps!
 S = "${SRCDIR}/Python-${PV}"
 
-do_compile[prefuncs] += "${DO_COMPILE_COPY_NATIVE}"
-DO_COMPILE_COPY_NATIVE = ""
-DO_COMPILE_COPY_NATIVE:machine = "do_compile_copy_native"
-do_compile_copy_native() {
-    # Copy the native python into the machine src dir and rename to python_for_build
-    # which is expected by the patch
-    cp ${STAGE_DIR}/native/bin/python_native ${S}/python_for_build
-}
-
 EXTRA_OEMAKE_COMPILE:native="python Parser/pgen"
 EXTRA_OECONF:machine = "\
   --disable-ipv6\
@@ -44,10 +35,8 @@ do_install[postfuncs] += "${DO_INSTALL_EXTRA_FILES}"
 DO_INSTALL_EXTRA_FILES = ""
 DO_INSTALL_EXTRA_FILES:native = "do_install_extra_files"
 do_install_extra_files () {
-	install -m 0755 ${S}/python \
-		${D}/bin/python_native
 	install -m 0755 ${S}/Parser/pgen \
-		${D}/bin/pgen_native
+		${D}/bin/pgen
 }
 
 
