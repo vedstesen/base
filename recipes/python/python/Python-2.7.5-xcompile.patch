@@ -6,7 +6,7 @@ index 9d55550..b028235 100644
  ##########################################################################
  # Parser
  PGEN=		Parser/pgen$(EXE)
-+PGEN_FOR_BUILD=pgen_native
++PGEN_FOR_BUILD=pgen
  
  PSRCS=		\
  		Parser/acceler.c \
@@ -100,37 +100,6 @@ index 2ad1aa3..ede793f 100644
  
  # Interface to the Expat XML parser
  #
-diff --git a/packages/Python-2.7.5/configure b/packages/Python-2.7.5/configure
-index dc0dfd0..083ef1b 100755
---- a/packages/Python-2.7.5/configure
-+++ b/packages/Python-2.7.5/configure
-@@ -2849,24 +2849,11 @@ case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
- 
- 
- 
-+# Use latest cross-compiling patches
- if test "$cross_compiling" = yes; then
-     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for python interpreter for cross build" >&5
- $as_echo_n "checking for python interpreter for cross build... " >&6; }
--    if test -z "$PYTHON_FOR_BUILD"; then
--        for interp in python$PACKAGE_VERSION python2 python; do
--	    which $interp >/dev/null 2>&1 || continue
--	    if $interp -c 'import sys;sys.exit(not (sys.version_info[:2] >= (2,7) and sys.version_info[0] < 3))'; then
--	        break
--	    fi
--            interp=
--	done
--        if test x$interp = x; then
--	    as_fn_error $? "python$PACKAGE_VERSION interpreter not found" "$LINENO" 5
--	fi
--        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $interp" >&5
--$as_echo "$interp" >&6; }
--	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
--    fi
-+    PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) $(srcdir)/$(BUILDPYTHON)_for_build'
- elif test "$cross_compiling" = maybe; then
-     as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
- else
 diff --git a/packages/Python-2.7.5/setup.py b/packages/Python-2.7.5/setup.py
 index 716f08e..ca8b141 100644
 --- a/packages/Python-2.7.5/setup.py
