@@ -92,15 +92,6 @@ diff --git a/packages/Python-2.7.5/setup.py b/packages/Python-2.7.5/setup.py
 index 716f08e..ca8b141 100644
 --- a/packages/Python-2.7.5/setup.py
 +++ b/packages/Python-2.7.5/setup.py
-@@ -17,7 +17,7 @@ from distutils.command.install import install
- from distutils.command.install_lib import install_lib
- from distutils.spawn import find_executable
- 
--cross_compiling = "_PYTHON_HOST_PLATFORM" in os.environ
-+cross_compiling = ("_PYTHON_HOST_PLATFORM" in os.environ) or ('PYTHONXCPREFIX' in os.environ)
- 
- def get_platform():
-     # cross build
 @@ -324,6 +324,9 @@ class PyBuildExt(build_ext):
  
          # Don't try to load extensions for cross builds
@@ -120,18 +111,6 @@ index 716f08e..ca8b141 100644
                  and not sysconfig.get_config_var('PYTHONFRAMEWORK'):
              # OSX note: Don't add LIBDIR and INCLUDEDIR to building a framework
              # (PYTHONFRAMEWORK is set) to avoid # linking problems when
-@@ -552,6 +556,11 @@ class PyBuildExt(build_ext):
-         if host_platform in ['darwin', 'beos']:
-             math_libs = []
- 
-+        # Insert libraries and headers from embedded root file system (RFS)
-+        if 'RFS' in os.environ:
-+            lib_dirs += [os.environ['RFS'] + '/usr/lib']
-+            inc_dirs += [os.environ['RFS'] + '/usr/include']
-+
-         # XXX Omitted modules: gl, pure, dl, SGI-specific modules
- 
-         #
 @@ -1975,8 +1984,13 @@ class PyBuildExt(build_ext):
  
                  # Pass empty CFLAGS because we'll just append the resulting
