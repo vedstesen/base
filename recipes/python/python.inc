@@ -14,11 +14,13 @@ DEPENDS += "${CROSS_DEPENDS}"
 DEPENDS_${PN}:machine += " libz libssl libreadline libffi libcrypto libtermcap libm "
 RDEPENDS_${PN}:machine += "libz libssl libreadline libffi libcrypto libtermcap libm "
 
-SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
+SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz"
 # The machine needs to be patched
+# Original patch from:
 # http://www.trevorbowen.com/2013/10/07/cross-compiling-python-2-7-5-for-embedded-linux/
 # http://bugs.python.org/file31991/Python-2.7.5-xcompile.patch
-SRC_URI:>machine = " file://Python-2.7.5-xcompile.patch;striplevel=3"
+# Note the patch has been modified!
+SRC_URI:>machine = " file://Python-${PV}-xcompile.patch;striplevel=3"
 
 # Python is in caps!
 S = "${SRCDIR}/Python-${PV}"
