@@ -7,12 +7,12 @@ RECIPE_TYPES = "native machine"
 
 inherit autotools  make
 
-CROSS_DEPENDS = "native:python  native:python-lib libssl libz libreadline libffi zlib libcrypto libtermcap libm"
+CROSS_DEPENDS = "native:python  native:python-lib libssl libz libreadline libffi libcrypto libtermcap libm"
 CROSS_DEPENDS:native = ""
 DEPENDS += "${CROSS_DEPENDS}"
 
-DEPENDS_${PN}:machine += " libz libssl libreadline libffi zlib libcrypto libtermcap libm "
-RDEPENDS_${PN}:machine += "libz libssl libreadline libffi zlib libcrypto libtermcap libm "
+DEPENDS_${PN}:machine += " libz libssl libreadline libffi libcrypto libtermcap libm "
+RDEPENDS_${PN}:machine += "libz libssl libreadline libffi libcrypto libtermcap libm "
 
 SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
 # The machine needs to be patched
